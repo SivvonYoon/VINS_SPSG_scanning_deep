@@ -1,0 +1,8 @@
+prefix=/home/sivvon/Desktop/Junseok_backup_0410/knu/scanning_deep/catkin_ws_scanning_ekf_ver2/devel
+
+Name: vins
+Description: Description of vins
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: urdf xacro
