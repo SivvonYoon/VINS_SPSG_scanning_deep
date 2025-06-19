@@ -1,0 +1,32 @@
+# sync params
+imu_vo/sync_redundancy: 100
+
+# frame params
+imu_vo/imu_frame: "body"
+imu_vo/cam_frame: "camera"
+
+# imu covariance
+imu_vo/cov_imu_rotX: 0.001
+imu_vo/cov_imu_rotY: 0.001
+imu_vo/cov_imu_rotZ: 10000
+
+# odom covariance
+imu_vo/cov_odom_transX: 0.001
+imu_vo/cov_odom_transY: 0.001
+imu_vo/cov_odom_transZ: 0.001
+imu_vo/cov_odom_rotX: 10000
+imu_vo/cov_odom_rotY: 10000
+imu_vo/cov_odom_rotZ: 0.001
+
+# # imu covariance
+# imu_vo/cov_imu_rotX: 100000
+# imu_vo/cov_imu_rotY: 100000
+# imu_vo/cov_imu_rotZ: 100000
+
+# # odom covariance
+# imu_vo/cov_odom_transX: 0.0000001
+# imu_vo/cov_odom_transY: 0.0000001
+# imu_vo/cov_odom_transZ: 0.0000001
+# imu_vo/cov_odom_rotX: 0.000001
+# imu_vo/cov_odom_rotY: 0.000001
+# imu_vo/cov_odom_rotZ: 0.000001

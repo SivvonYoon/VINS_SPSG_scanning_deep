@@ -1,0 +1,97 @@
+%YAML:1.0
+
+# 에피폴라분해능: 0.000005296875
+
+#common parameters
+imu: 0
+num_of_cam: 2  
+
+imu_topic: ""
+image0_topic: "/camera0/image_raw"
+image1_topic: "/camera1/image_raw"
+#output_path: "$ParkingRamp3D_PATH/output3D/"
+#output_path: "/home/junesuk/KNU/output/"
+
+#SIVVON data path for superPoint and superGlue
+superpoint_superglue_kp_track_match_data: "/home/sivvon/Desktop/Junseok_backup_0410/knu/scanning_deep/catkin_ws_scanning_ekf_ver2/spsg_kitti_03_0.05_0.3/"
+
+cam0_calib: "camLeftResize.yaml"
+cam1_calib: "camRightResize.yaml"
+image_width: 1241
+image_height: 376
+
+# Extrinsic parameter between IMU and Camera.
+estimate_extrinsic: 0   # 0  Have an accurate extrinsic parameters. We will trust the following imu^R_cam, imu^T_cam, don't change it.
+                        # 1  Have an initial guess about extrinsic parameters. We will optimize around your initial guess.
+
+imu_T_body: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [0.01486554, 0.99955725, -0.02577444, 0.06522291,
+          -0.99988093, 0.01496721, 0.00375619, -0.02070639,
+          0.0041403,   0.02571553,  0.99966073, -0.0080546,
+          0.0,          0.0,          0.0,          1.0]
+   # data: [0.0002985409478147572, -0.005817794454099003, -0.9999830319265373, -0.03291596400931313, 
+   #        0.9999591894364118, -0.009027525799002126, 0.00035105501044529905, -0.0526272786674419, 
+   #        -0.00902941498517402, -0.9999423268597223, 0.005814861940520048, -0.04302626769394006, 
+   #        0.0, 0.0, 0.0, 1.0]
+
+body_T_cam0: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [1, 0, 0, 0,
+          0, 0, 1, 0,
+          0, -1, 0, 0,
+          0, 0, 0, 1]
+
+body_T_cam1: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d  
+   data: [1, 0, 0, 0.537150588250621,
+          0, 0, 1, 0,
+          0, -1, 0, 0,
+          0, 0, 0, 1]
+   # data: [0.999972023520158, -0.004444689683342018, -0.0060163868409807775, 0.10114381681207361, 
+   #        0.00446170205137971, 0.99998607817518, 0.002817209723931017, 0.00017711786401384072, 
+   #        0.006003781458901358, -0.0028439742338302607, 0.9999779329658991, -0.0005434194693675702, 
+   #        0.0, 0.0, 0.0, 1.0]
+   # data: [0.9999829392963145, -0.003891824912502756, -0.0043560090860120014, 0.09900721032586574, 
+   #        0.003924115969339322, 0.9999647038476545, 0.007429156933055882, -0.0001767849035675587, 
+   #        0.004326942357620715, -0.007446123671227808, 0.9999629157184333, -0.0057846960182489915, 
+   #        0.0, 0.0, 0.0, 1.0]
+
+#Multiple thread support
+multiple_thread: 1
+
+#feature traker paprameters
+max_cnt: 400            # max feature number in feature tracking
+min_dist: 10            # min distance between two features (default: 30)
+freq: 0                # frequence (Hz) of publish tracking result. At least 10Hz for good estimation. If set 0, the frequence will be same as raw image 
+F_threshold: 1.0        # ransac threshold (pixel)
+show_track: 1           # publish tracking image as topic
+flow_back: 1            # perform forward and backward optical flow to improve feature tracking accuracy
+stereoKernelShiftY: 21.0   # default 0.0
+
+# superPoint and superGlue confidence threshold sivvon_tnm
+cam0_cur_keypoint_confidence_threshold: 0.3
+cam0_tracking_confidence_threshold: 0.9
+stereo_matching_confidence_threshold: 0.9
+
+#optimization parameters
+max_solver_time: 0.04  # max solver itration time (ms), to guarantee real time
+max_num_iterations: 8   # max solver itrations, to guarantee real time
+keyframe_parallax: 10.0 # keyframe selection threshold (pixel)
+
+#imu parameters       The more accurate parameters you provide, the better performance
+acc_n: 0.1          # accelerometer measurement noise standard deviation. #0.2   0.04
+gyr_n: 0.01         # gyroscope measurement noise standard deviation.     #0.05  0.004
+acc_w: 0.001         # accelerometer bias random work noise standard deviation.  #0.02
+gyr_w: 1.0e-4       # gyroscope bias random work noise standard deviation.     #4.0e-5
+g_norm: 9.81007     # gravity magnitude
+
+#unsynchronization parameters
+estimate_td: 0                      # online estimate time offset between camera and imu
+td: 0           # initial value of time offset. unit: s. readed image clock + td = real image clock (IMU clock)

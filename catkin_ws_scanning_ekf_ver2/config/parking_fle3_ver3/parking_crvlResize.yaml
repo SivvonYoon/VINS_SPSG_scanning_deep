@@ -1,0 +1,81 @@
+%YAML:1.0
+
+#common parameters
+imu: 0
+num_of_cam: 2  
+
+imu_topic: ""
+image0_topic: "/cam0/image_raw"
+image1_topic: "/cam1/image_raw"
+
+# SIVVON data path for superPoint and superGlue
+superpoint_superglue_kp_track_match_data: "/home/sivvon/Desktop/Junseok_backup_0410/knu/scanning_deep/catkin_ws_scanning_ekf_ver2/spsg_220408-electronstoreunder-cam_imu_lidar_storeUnder1_0.05_0.5/"
+vio_lidar_3d_map_path: "/home/sivvon/Desktop/Junseok_backup_0410/knu/dataset_n_output/underground_output_vio+lidar/"
+
+cam0_calib: "camLeftResize.yaml"
+cam1_calib: "camRightResize.yaml"
+image_width: 640
+image_height: 512
+
+# Extrinsic parameter between IMU and Camera.
+estimate_extrinsic: 0
+imu_T_body: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [-0.01996441240749907, 0.01852454430723619, -0.999629062950569, -0.04580565848082359, 
+           0.99979887510193, 0.0022756284375674606, -0.01992563324287317, -0.05466713988547804, 
+           0.0019056710468118522, -0.9998258162167165, -0.01856625014476446, -0.036354647316660826, 
+           0.0, 0.0, 0.0, 1.0]
+
+body_T_cam0: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [1, 0, 0, 0,
+          0, 1, 0, 0,
+          0, 0, 1, 0,
+          0, 0, 0, 1]
+
+body_T_cam1: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d   
+   data: [0.9999754817145998, -0.0021188302325338606, -0.006674318550296532, 0.09960937118740303, 
+          0.002132477639060694, 0.9999956489029656, 0.0020383116216121035, 0.00018314598852753452, 
+          0.006669970673401647, -0.002052494480770494, 0.999975649082333, -0.0016940985390831904, 
+          0.0, 0.0, 0.0, 1.0]
+
+#Multiple thread support
+multiple_thread: 0
+
+#feature traker paprameters
+max_cnt: 400            # max feature number in feature tracking
+min_dist: 5            # min distance between two features (default: 30)
+freq: 0                # frequence (Hz) of publish tracking result. At least 10Hz for good estimation. If set 0, the frequence will be same as raw image 
+F_threshold: 1.0        # ransac threshold (pixel)
+show_track: 1           # publish tracking image as topic
+flow_back: 1            # perform forward and backward optical flow to improve feature tracking accuracy
+stereoKernelShiftY: 21.0
+
+# superPoint and superGlue confidence threshold sivvon_tnm
+cam0_cur_keypoint_confidence_threshold: 0.35
+cam0_tracking_confidence_threshold: 0.65
+stereo_matching_confidence_threshold: 0.5
+
+#optimization parameters
+max_solver_time: 0.04  # max solver itration time (ms), to guarantee real time
+max_num_iterations: 8   # max solver itrations, to guarantee real time
+keyframe_parallax: 10.0 # keyframe selection threshold (pixel)
+
+#imu parameters       The more accurate parameters you provide, the better performance
+acc_n: 0.1          # accelerometer measurement noise standard deviation. #0.2   0.04
+gyr_n: 0.01         # gyroscope measurement noise standard deviation.     #0.05  0.004
+acc_w: 0.001         # accelerometer bias random work noise standard deviation.  #0.02
+gyr_w: 1.0e-4       # gyroscope bias random work noise standard deviation.     #4.0e-5
+g_norm: 9.81007     # gravity magnitude
+
+#unsynchronization parameters
+estimate_td: 0                      # online estimate time offset between camera and imu
+td: 0.0                             # initial value of time offset. unit: s. readed image clock + td = real image clock (IMU clock)
+
