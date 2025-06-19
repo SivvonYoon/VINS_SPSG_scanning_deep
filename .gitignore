@@ -1,4 +1,5 @@
 catkin_ws_scanning_ekf_ver2/build/
+catkin_ws_scanning_ekf_ver2/devel/
 catkin_ws_scanning_ekf_ver2/config/
 
 catkin_ws_scanning_ekf_ver2/spsg_kitti_06_0.05_0.3/
